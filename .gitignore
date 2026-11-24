@@ -1,0 +1,21 @@
+# Python e ambientes locais
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+
+# Produtos derivados dos scripts (regeneráveis)
+*.png
+Etapa3_Pertinencias_FCM.csv
+relatorios/
+
+# Configurações pessoais, credenciais e editores
+.env
+.env.*
+!.env.example
+.vscode/
+.idea/
+.DS_Store
+*.swp
