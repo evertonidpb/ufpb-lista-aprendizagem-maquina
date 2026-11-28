@@ -1,72 +1,110 @@
-# Aprendizagem de Máquina — UFPB | Experimentos reproduzíveis
+# Lista de Exercícios — Aprendizagem de Máquina | UFPB
 
-Repositório para reprodução das **8 etapas** da lista de exercícios da disciplina de Aprendizagem de Máquina, Centro de Informática, Universidade Federal da Paraíba (UFPB).
+Códigos Python para reproduzir as **oito etapas** da lista de Aprendizagem de Máquina do Centro de Informática da Universidade Federal da Paraíba (UFPB). Todos os experimentos utilizam a mesma base sintética de **300 observações** (150 por classe), gerada com semente 42.
 
-O objetivo é permitir que o professor e outras pessoas executem os experimentos de ponta a ponta usando **a mesma base sintética de 300 observações**, sem acesso a ambientes privados. Os arquivos `README_EXECUCAO_E_VALIDACAO.txt` nas pastas de cada etapa detalham a execução isolada.
+## Estrutura
 
-## Organização
-
-| Pasta | Experimento | Saídas geradas |
+| Pasta | Algoritmo | Script |
 | --- | --- | --- |
-| `etapa01/` | Geração de duas classes com NumPy | CSV de 300 pontos (idêntico ao original) |
-| `etapa02/` | K-means (`k=2`) | Gráfico comparativo |
-| `etapa03/` | Fuzzy C-means (`c=2`) | Gráfico de pertinência e CSV com memberships |
-| `etapa04/` | Regressão Logística | Fronteira de decisão e matriz |
-| `etapa05/` | RNA feedforward (12 e 6 neurônios) | Comparação com Regressão Logística |
-| `etapa06/` | SVM com kernel RBF | Fronteira de decisão e matriz TP/FN/FP/TN |
-| `etapa07/` | Árvore de Decisão | Árvore e fronteira de decisão |
-| `etapa08/` | KNN (`k` selecionado por validação cruzada) | Seis fronteiras e matriz de confusão |
+| `etapa01/` | Geração dos dados e gráfico | `Lista_ML_Etapa1_Reproducao_Exata.py` |
+| `etapa02/` | K-means | `Lista_ML_Etapa2_KMeans.py` |
+| `etapa03/` | Fuzzy C-means | `Lista_ML_Etapa3_Fuzzy_CMeans.py` |
+| `etapa04/` | Regressão Logística | `Lista_ML_Etapa4_RegressaoLogistica.py` |
+| `etapa05/` | Rede Neural Artificial (MLP) | `Lista_ML_Etapa5_RNA.py` |
+| `etapa06/` | SVM com kernel RBF | `Lista_ML_Etapa6_SVM.py` |
+| `etapa07/` | Árvore de Decisão | `Lista_ML_Etapa7_Arvore_Decisao.py` |
+| `etapa08/` | K-vizinhos Mais Próximos (KNN) | `Lista_ML_Etapa8_KNN.py` |
 
-**Importante:** as oito pastas têm cópias **idênticas** do CSV, para que cada etapa possa ser executada isoladamente. O SHA-256 da base é:
+Cada pasta contém o script da etapa e uma **cópia idêntica** de `Lista_ML_Base_300_Pontos.csv`. As cópias são intencionais: cada script pode ser executado isoladamente, sem modificar caminhos no código.
+
+## Requisitos
+
+- **Python 3.13** (versão usada nos testes).
+- Dependências definidas em `requirements.txt`: NumPy, pandas, Matplotlib e scikit-learn.
+- **Git**, se optar por clonar o repositório. Também é possível baixar **Code → Download ZIP** no GitHub e extrair a pasta.
+
+## Obter o código
+
+No terminal de sua preferência, com Git instalado:
+
+```bash
+git clone https://github.com/evertonidpb/ufpb-lista-aprendizagem-maquina.git
+cd ufpb-lista-aprendizagem-maquina
+```
+
+Se baixou o ZIP, abra o terminal na pasta extraída e siga as instruções do seu sistema operacional.
+
+## Debian 13 (Linux)
+
+Instale os requisitos do sistema (execute antes de clonar, se ainda não tiver Git):
+
+```bash
+sudo apt update
+sudo apt install -y git python3 python3-venv python3-pip
+```
+
+Na **raiz do repositório**, crie um ambiente virtual, instale as dependências e execute todas as etapas:
+
+```bash
+python3 --version
+python3 -m venv .venv
+source .venv/bin/activate
+python -m pip install -r requirements.txt
+python scripts/verificar_tudo.py
+```
+
+Para executar apenas uma etapa (exemplo: Etapa 5):
+
+```bash
+python etapa05/Lista_ML_Etapa5_RNA.py
+```
+
+## Windows 11 (PowerShell)
+
+Instale **Python 3.13** pelo site oficial [python.org](https://www.python.org/downloads/) e, se desejar clonar, instale o [Git para Windows](https://git-scm.com/downloads/win). Verifique se o comando `py -3.13` está disponível.
+
+Abra o **PowerShell** na raiz do repositório e execute:
+
+```powershell
+py -3.13 --version
+py -3.13 -m venv .venv
+.\.venv\Scripts\python.exe -m pip install -r requirements.txt
+.\.venv\Scripts\python.exe scripts\verificar_tudo.py
+```
+
+Para executar apenas uma etapa (exemplo: Etapa 5):
+
+```powershell
+.\.venv\Scripts\python.exe etapa05\Lista_ML_Etapa5_RNA.py
+```
+
+Os comandos acima **não exigem ativar o ambiente virtual** no PowerShell, evitando problemas com a política de execução de scripts. Se `py -3.13` não for reconhecido, confira a instalação do Python e do launcher do Windows.
+
+## Como conferir a execução
+
+O comando `scripts/verificar_tudo.py`:
+
+1. Verifica a assinatura SHA-256 de cada CSV;
+2. Executa os oito scripts, em ordem;
+3. Confere marcadores dos resultados esperados;
+4. Grava os logs em `relatorios/etapa01.txt` até `relatorios/etapa08.txt`.
+
+A saída esperada termina com:
+
+```text
+SUCESSO: oito etapas executadas e resultados esperados confirmados.
+```
+
+Os gráficos PNG são gerados nas pastas das etapas. A Etapa 3 também gera `Etapa3_Pertinencias_FCM.csv`. Esses arquivos de saída e os relatórios não são versionados.
+
+**Resultados de referência:** K-means com ARI = 0,960267; Fuzzy C-means com FPC = 0,878095; classificadores supervisionados com 60/60 acertos nos respectivos conjuntos de teste; KNN seleciona `k = 5` por validação cruzada. São resultados desta **base sintética e desta divisão**, não garantias de desempenho em outros dados.
+
+**Integridade da base:** SHA-256 de `Lista_ML_Base_300_Pontos.csv`:
 
 ```text
 04b7b779052bd13633472299eb6d763a9bfff26fb26213196ed32d131bb0a4a5
 ```
 
-## Instalação rápida no Debian 13
+Não edite ou regrave os CSVs com outro formato de quebras de linha; isso altera o hash. O script da Etapa 1 regenera o CSV original de maneira reprodutível em Debian e Windows.
 
-```bash
-sudo apt update
-sudo apt install -y git python3 python3-venv python3-pip unzip
-python3 -m venv .venv
-source .venv/bin/activate
-python -m pip install --upgrade pip
-python -m pip install -r requirements.txt
-```
-
-Se o terminal estiver como `root`, remova `sudo`. Não use `pip` global nem `--break-system-packages`.
-
-## Verificar os oito experimentos automaticamente
-
-```bash
-python scripts/verificar_tudo.py
-```
-
-A verificação executa os códigos em ordem, confere a assinatura dos CSVs e os resultados de referência e registra a saída de cada etapa em `relatorios/`. **O arquivo `relatorios/` não é versionado.** Para executar apenas uma etapa, entre na respectiva pasta e use `python NOME_DO_SCRIPT.py` conforme o README local.
-
-## Resultados esperados
-
-| Etapa | Resultado principal |
-| --- | --- |
-| 1 | 300 registros, semente 42, hash igual à referência |
-| 2 | 297 correspondências, ARI = 0,960267 |
-| 3 | 297 correspondências, FPC = 0,878095, 15 iterações |
-| 4 | 60/60 classificações corretas no teste |
-| 5 | 60/60 classificações corretas no teste; RNA com 38 iterações |
-| 6 | 60/60 classificações corretas no teste |
-| 7 | 60/60 classificações corretas no teste |
-| 8 | `k = 5` por validação cruzada; 60/60 corretas no teste |
-
-Os algoritmos supervisionados usam **80% de treino e 20% de teste** com divisão estratificada e `random_state=42`. O pré-processamento que aprende parâmetros utiliza somente o treino. Nas Etapas 2 e 3, as classes verdadeiras são usadas **após** o agrupamento, exclusivamente para avaliação.
-
-> **Nota sobre classe positiva:** os scripts originais das Etapas 4 e 5, extraídos integralmente dos DOCXs, calculam precisão/recall/F1 com a Classe 2 como positiva; os scripts posteriores adotam Classe 1 positiva. Como ambos os modelos classificaram corretamente os 60 testes, as métricas são 100% em ambas as convenções. Ao compilar os documentos acadêmicos, convém uniformizar a legenda da matriz e explicitar o rótulo positivo.
-
-## Código-fonte e equivalência com os documentos
-
-Os scripts das Etapas 2 a 5 foram recuperados **linha por linha** das listagens numeradas nos documentos Word de entrega, sem modificar seus hiperparâmetros. Os scripts das Etapas 6 a 8 são os originais dos pacotes de reprodução correspondentes. A Etapa 1 usa a versão portátil do gerador, com a mesma sequência de sorteios do código acadêmico e com padronização de quebras de linha para garantir SHA-256 idêntico no Linux.
-
-## Inicializar Git e publicar no GitHub
-
-Consulte [GUIA_GIT_GITHUB.md](GUIA_GIT_GITHUB.md). Execute `bash scripts/preparar_git.sh` para criar o repositório `main` e o primeiro commit **usando sua identidade Git configurada**. Nenhum código é enviado automaticamente ao GitHub. Nunca envie tokens, senhas, chaves privadas ou dados pessoais junto do projeto.
-
-**Referência acadêmica:** Lista de Exercícios de Aprendizagem de Máquina — UFPB / Centro de Informática.
+**Observação:** precisão, recall e F1 usam a Classe 2 como positiva nas Etapas 4 e 5 e a Classe 1 nas Etapas 6 a 8, conforme definido em cada experimento.
